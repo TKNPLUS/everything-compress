@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ファイル圧縮アプリ</title>
+</head>
+<body>
+
+<h1>ファイル圧縮アプリ</h1>
+あらゆるファイルをたったの4Byteに圧縮できます
+<font size="0.1" color="darkgray">非可逆で</font>
+
+<br><br>
+
+<label for="fileInput">ファイルを選択：</label>
+<input type="file" id="fileInput" multiple>
+
+<br><br>
+
+<button id="processBtn">圧縮（変換）を実行</button>
+
+<script>
+document.getElementById('processBtn').addEventListener('click', () => {
+    const fileInput = document.getElementById('fileInput');
+    
+    if (fileInput.files.length === 0) {
+        alert('ファイルを選択してください。');
+        return;
+    }
+
+    const files = fileInput.files;
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        // MIMEタイプを 'text/plain'（プレーンテキスト）に指定して安全であることをブラウザに伝える
+        const blob = new Blob(['hoge'], { type: 'text/plain' });
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'assyuku';
+        link.click();   
+        
+        URL.revokeObjectURL(link.href);
+    };
+
+    for (let i = 0; i < files.length; i++) {
+        reader.readAsText(files[i]);
+    }
+});
+</script>
+
+</body>
+</html>
